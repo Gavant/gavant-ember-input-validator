@@ -12,6 +12,7 @@ const {
 export default Component.extend({
     layout: layout,
     classNames: [ 'form-group', 'input-validator' ],
+    classNameBindings: ['hasError:has-error', 'label:hasLabel'],
     hasError: false,
     error: null,
     label: true,
@@ -39,7 +40,6 @@ export default Component.extend({
         if (showValidationFields === true) {
             set(this, 'hasError', !isEmpty(error));
         }
-        return showValidationFields;
     }),
     didRender: function() {
         let id = Ember.$('input').attr('id');

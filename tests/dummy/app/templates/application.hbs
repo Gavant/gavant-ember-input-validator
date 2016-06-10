@@ -1,3 +1,6 @@
-<h2 id="title">Welcome to Ember</h2>
-
+<h2 id="title">Welcome to Ember Test</h2>
+{{#input-validator target="test" text="test" targetObject=this label=false}}
+    {{input type="text" value=test}}
+{{/input-validator}}
+<button {{action "showValidationFields"}}>Test</button>
 {{outlet}}
