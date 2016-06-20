@@ -1,5 +1,5 @@
 {
-  "name": "input-validator",
+  "name": "gavant-input-validator",
   "version": "0.0.2",
   "private": false,
   "description": "This validates the input field provided based upon controller data",
