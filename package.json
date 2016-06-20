@@ -1,7 +1,7 @@
 {
   "name": "input-validator",
   "version": "0.0.2",
-  "private": true,
+  "private": false,
   "description": "This validates the input field provided based upon controller data",
   "directories": {
     "doc": "doc",
