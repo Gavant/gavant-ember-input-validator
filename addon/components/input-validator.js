@@ -5,24 +5,27 @@ const {
     get,
     set,
     isEmpty,
-    Binding,
-    Component
+    Component,
+    computed,
+    observer,
+    defineProperty,
 } = Ember;
 
 export default Component.extend({
     layout: layout,
     classNames: [ 'form-group', 'input-validator' ],
-    classNameBindings: ['hasError:has-error', 'label:hasLabel'],
+    classNameBindings: ['hasError:has-error', 'label:hasLabel', 'showAllValidations:force-error-display'],
     hasError: false,
     error: null,
     label: true,
-    focusOut: function() {
+    focusOut() {
         return set(this, 'hasError', !isEmpty(get(this, 'error')));
     },
-    targetObject: Ember.computed('parentView', function() {
+    showAllValidations: computed.alias('targetObject.showValidationFields'),
+    targetObject: computed('parentView', function() {
         return get(this, 'parentView');
     }),
-    fieldLabel: Ember.computed('nameString', 'text', function() {
+    fieldLabel: computed('nameString', 'text', function() {
         let text = get(this, 'text');
         if (text) {
             return text;
@@ -30,23 +33,22 @@ export default Component.extend({
             return get(this, 'nameString');
         }
     }),
-    nameString: Ember.computed('target', function() {
+    nameString: computed('target', function() {
         let target = get(this, 'target');
         return target.string ? target.string : target;
     }),
-    displayAllErrors: Ember.observer('targetObject.showValidationFields', function() {
-        let showValidationFields = get(this, 'targetObject.showValidationFields'),
+    forceErrorDisplay: observer('showAllValidations', function() {
+        let showValidationFields = get(this, 'showAllValidations'),
             error = get(this, 'error');
         if (showValidationFields === true) {
             set(this, 'hasError', !isEmpty(error));
         }
     }),
-    didRender: function() {
-        let id = Ember.$('input').attr('id');
-        Ember.$('label').attr('for', id);
+    didRender() {
+        let id = Ember.$(this.get('element')).find('input').attr('id');
+        Ember.$(this.get('element')).find('label').attr('for', id);
     },
-    didInsertElement: function() {
-        let name = get(this, 'nameString');
-        Binding.from("targetObject.errors." + name).to("error").connect(this);
+    didInsertElement () {
+        defineProperty(this, 'error', computed.alias(`targetObject.errors.${this.get('nameString')}`));
     }
 });
