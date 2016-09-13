@@ -18,13 +18,27 @@ export default Component.extend({
     hasError: false,
     error: null,
     label: true,
+
     focusOut() {
         return set(this, 'hasError', !isEmpty(get(this, 'error')));
     },
-    showAllValidations: computed.alias('targetObject.showValidationFields'),
-    targetObject: computed('parentView', function() {
-        return get(this, 'parentView');
-    }),
+
+    showAllValidations: computed.reads('targetObject.showValidationFields'),
+
+    targetObject: computed(function () {
+        return this.getFormComponent(this.get('parentView'));
+    }).volatile(),
+
+    getFormComponent(parentView) {
+        if (!parentView) {
+            return null;
+        }
+        if (parentView.get('tagName') === 'form') {
+            return parentView;
+        }
+        return this.getFormComponent(parentView.get('parentView'));
+    },
+
     fieldLabel: computed('nameString', 'text', function() {
         let text = get(this, 'text');
         if (text) {
@@ -33,22 +47,23 @@ export default Component.extend({
             return get(this, 'nameString');
         }
     }),
+
     nameString: computed('target', function() {
         let target = get(this, 'target');
         return target.string ? target.string : target;
     }),
-    forceErrorDisplay: observer('showAllValidations', function() {
-        let showValidationFields = get(this, 'showAllValidations'),
-            error = get(this, 'error');
-        if (showValidationFields === true) {
+
+    showAllValidationsDidChange: observer('showAllValidations', function() {
+        let showValidationFields = get(this, 'showAllValidations');
+        let error = get(this, 'error');
+        if (showValidationFields && showValidationFields === true) {
             set(this, 'hasError', !isEmpty(error));
         }
     }),
+
     didRender() {
         let id = Ember.$(this.get('element')).find('input').attr('id');
         Ember.$(this.get('element')).find('label').attr('for', id);
-    },
-    didInsertElement () {
-        defineProperty(this, 'error', computed.alias(`targetObject.errors.${this.get('nameString')}`));
+        defineProperty(this, 'error', computed.reads(`targetObject.errors.${this.get('nameString')}`));
     }
 });
