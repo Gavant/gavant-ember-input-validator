@@ -1,6 +1,6 @@
 {
   "name": "gavant-input-validator",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": false,
   "description": "This validates the input field provided based upon controller data",
   "directories": {

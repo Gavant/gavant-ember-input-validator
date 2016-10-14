@@ -62,8 +62,8 @@ export default Component.extend({
     }),
 
     didRender() {
-        let id = Ember.$(this.get('element')).find('input').attr('id');
-        Ember.$(this.get('element')).find('label').attr('for', id);
+        let id = this.$('input, select, textarea').first().attr('id');
+        this.$('label.input-validator-label').attr('for', id);
         defineProperty(this, 'error', computed.reads(`targetObject.errors.${this.get('nameString')}`));
     }
 });
