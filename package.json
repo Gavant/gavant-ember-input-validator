@@ -1,8 +1,8 @@
 {
-  "name": "gavant-input-validator",
+  "name": "gavant-ember-input-validator",
   "version": "0.0.5",
   "private": false,
-  "description": "This validates the input field provided based upon controller data",
+  "description": "Validation error highlighting for form fields",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -12,11 +12,14 @@
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gavant/gavant-ember-input-validator.git"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "Adam Baker",
+  "author": "Gavant Software, Inc.",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
@@ -40,7 +43,10 @@
     "loader.js": "^4.0.1"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "forms",
+    "validation",
+    "inputs"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.6",
@@ -49,8 +55,5 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
-  },
-  "publishConfig": {
-    "registry": "http://artifactory.gavant.com/artifactory/api/npm/npm-local"
   }
 }
