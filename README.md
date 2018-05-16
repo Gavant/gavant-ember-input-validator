@@ -1,4 +1,6 @@
-# gavant-ember-input-validator
+# DEPRECATED: gavant-ember-input-validator
+
+**This project has been deprecated. Please use [gavant-ember-validations](https://github.com/Gavant/gavant-ember-validations) instead.**
 
 Validation error highlighting for form fields.
 
